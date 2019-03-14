@@ -35,7 +35,7 @@ export default {
           price: null,
           type: null,
           onSale: true,
-          restaurantId: 0
+          restaurantId: 1
       },
       courseTypes: [
         '热菜', '凉菜', '主食', '汤', '饮料'

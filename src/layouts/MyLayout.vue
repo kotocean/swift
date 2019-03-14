@@ -33,9 +33,25 @@
         inset-delimiter
       >
         <q-list-header>管理菜单</q-list-header>
+        <q-item to="/">
+          <q-item-side icon="home" />
+          <q-item-main label="首页" sublabel="开始点菜" />
+        </q-item>
         <q-item to="/course">
           <q-item-side icon="school" />
           <q-item-main label="菜品" sublabel="菜品信息维护" />
+        </q-item>
+        <q-item to="/course/type">
+          <q-item-side icon="school" />
+          <q-item-main label="菜品类型" sublabel="菜品类型维护" />
+        </q-item>
+        <q-item to="/seat">
+          <q-item-side icon="school" />
+          <q-item-main label="席位" sublabel="席位信息维护" />
+        </q-item>
+        <q-item to="/restaurant">
+          <q-item-side icon="school" />
+          <q-item-main label="餐厅" sublabel="餐厅信息维护" />
         </q-item>
         <q-item @click.native="openURL('https://github.com/quasarframework/')">
           <q-item-side icon="code" />
