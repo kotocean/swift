@@ -58,7 +58,8 @@ module.exports = function (ctx) {
         'QRadio',
         'QBtnToggle',
         'QCheckbox',
-        'QCard'
+        'QCard',
+        'QPageSticky'
       ],
       directives: [
         'Ripple',
