@@ -85,6 +85,7 @@ export default {
         .then(response => {
           console.log(response)
           this.cart = response.data
+          this.$router.push('/cart')
         })
         .catch(error => {
           console.log(error)

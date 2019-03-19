@@ -59,7 +59,8 @@ module.exports = function (ctx) {
         'QBtnToggle',
         'QCheckbox',
         'QCard',
-        'QPageSticky'
+        'QPageSticky',
+        'QModal'
       ],
       directives: [
         'Ripple',
