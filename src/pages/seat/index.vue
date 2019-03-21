@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 400px">
-        <q-input  v-model="seat.name" label="席位名称" placeholder="请输入，如2号桌"/>
-        <q-input  v-model="seat.capacity" label="容量" placeholder="最多可坐几人，如3"/>
+        <q-input  v-model="seat.name" stack-label="席位名称" placeholder="请输入，如2号桌"/>
+        <q-input  v-model="seat.capacity" stack-label="容量" placeholder="最多可坐几人，如3"/>
         <q-btn color="secondary" label="提交" @click="postSeat"/>
     </div>
   </div>

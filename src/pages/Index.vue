@@ -48,6 +48,11 @@ export default {
       }
     }
   },
+  computed: {
+    restaurantId(){
+      return this.$store.state.restaurant.id
+    }
+  },
   created(){
     this.axios.get('/course')
             .then(response => {
@@ -68,6 +73,7 @@ export default {
       console.log(this.checkedCourseList)
       this.cart.lastDate = (new Date()).toISOString()
       this.cart.cartItemList = []
+      this.cart.restaurantId = this.restaurantId
 
       for(var i=0; i<this.checkedCourseList.length; i++){
         if(this.checkedCourseList[i]){

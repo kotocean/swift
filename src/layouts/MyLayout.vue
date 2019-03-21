@@ -33,6 +33,10 @@
         inset-delimiter
       >
         <q-list-header>管理菜单</q-list-header>
+        <q-item to="/welcome">
+          <q-item-side icon="home" />
+          <q-item-main label="欢迎页面" sublabel="选择我的餐厅" />
+        </q-item>
         <q-item to="/">
           <q-item-side icon="home" />
           <q-item-main label="首页" sublabel="开始点菜" />
