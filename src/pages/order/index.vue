@@ -7,7 +7,9 @@
         <!-- Targets -->
         <q-tab-pane name="tab-1">
             <q-list highlight inset-separator>
+                
                 <q-item multiline link v-for="(order, index) in incompleteOrderList" v-bind:key="index">
+                    <q-item-side>{{ index+1 }}.</q-item-side>
                     <q-item-main
                         :label="order.seatName"
                         label-lines="1"
@@ -27,6 +29,7 @@
         <q-tab-pane name="tab-2">
             <q-list highlight inset-separator>
                 <q-item multiline link v-for="(order, index) in completeOrderList" v-bind:key="index">
+                    <q-item-side>{{ index+1 }}.</q-item-side>
                     <q-item-main
                         :label="order.seatName"
                         label-lines="1"
@@ -70,6 +73,9 @@ export default {
         getTimeFrom(createdDate){
             var secondsAgo = ((new Date()).getTime()  - (new Date(createdDate)).getTime())/1000
             var dayDiff = Math.floor(secondsAgo/(24*3600))
+            if(dayDiff>0){
+                return "一天之前"
+            }
 
             var leave1 = secondsAgo%(24*3600)
             var hoursDiff = Math.floor(leave1/3600)
@@ -78,7 +84,7 @@ export default {
             var minutesDiff = Math.floor(leave2/60)
 
             var secondsDiff = Math.floor(leave2%60)
-            return dayDiff+'天'+hoursDiff+'小时'+minutesDiff+'分钟'+secondsDiff+'秒之前'
+            return hoursDiff+'小时'+minutesDiff+'分钟'+secondsDiff+'秒之前'
         },
         showDetails(index){
             console.log(index)

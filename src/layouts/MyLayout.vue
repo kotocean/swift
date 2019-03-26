@@ -57,6 +57,10 @@
           <q-item-side icon="school" />
           <q-item-main label="餐厅" sublabel="餐厅信息维护" />
         </q-item>
+        <q-item to="/order">
+          <q-item-side icon="school" />
+          <q-item-main label="订单" sublabel="查看订单" />
+        </q-item>
         <q-item @click.native="openURL('https://github.com/quasarframework/')">
           <q-item-side icon="code" />
           <q-item-main label="GitHub" sublabel="github.com/quasarframework" />

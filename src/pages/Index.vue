@@ -86,6 +86,9 @@ export default {
         }
       }
       console.log(this.cart)
+      if(this.cart.cartItemList.length===0){
+        return alert('未选择任何菜品，请先选择！')
+      }
 
       this.axios.post('/cart', this.cart)
         .then(response => {

@@ -11,6 +11,7 @@ const routes = [
       { path: '/seat', component: () => import('pages/seat/index.vue') },
       { path: '/restaurant', component: () => import('pages/restaurant/index.vue') },
       { path: '/cart', component: () => import('pages/cart/index.vue') },
+      { path: '/order', component: () => import('pages/order/index.vue') },
     ]
   }
 ]

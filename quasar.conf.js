@@ -60,7 +60,11 @@ module.exports = function (ctx) {
         'QCheckbox',
         'QCard',
         'QPageSticky',
-        'QModal'
+        'QModal',
+        'QTabs',
+        'QTab',
+        'QTabPane',
+        'QRouteTab'
       ],
       directives: [
         'Ripple',
