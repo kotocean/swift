@@ -12,9 +12,12 @@
       selection="single"
       :selected.sync="selectedSeat"
       :pagination.sync="serverPagination"
+      :loading="loading"
+      @request="request"
       row-key="id"
       color="secondary"
       title="请先选择要删除和编辑的数据行"
+      rows-per-page-label="每页显示行数："
     >
       <template slot="top-selection" slot-scope="props">
         <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetSeat"/>
