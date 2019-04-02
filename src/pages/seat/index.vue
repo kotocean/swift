@@ -3,7 +3,7 @@
     <div class="q-gutter-y-md column" style="max-width: 400px">
         <q-input  v-model="seat.name" stack-label="席位名称" placeholder="请输入，如2号桌"/>
         <q-input  v-model="seat.capacity" stack-label="容量" placeholder="最多可坐几人，如3"/>
-        <q-btn color="secondary" label="提交" @click="postSeat"/>
+        <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postSeat"/>
     </div>
 
     <q-table
@@ -21,7 +21,7 @@
     >
       <template slot="top-selection" slot-scope="props">
         <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetSeat"/>
-        <!-- <q-btn color="secondary" flat label="Action 2" /> -->
+        <q-btn color="brown" flat label="取消编辑" @click="cancelEdit" />
         <div class="col" />
         <q-btn color="negative" flat round icon="delete" @click="deleteSeat" />
         <q-btn
@@ -40,6 +40,7 @@ export default {
   data () {
     return {
       loading: false,
+      isEdit: false,
       serverPagination: {
         page: 1,
         rowsNumber: 10, // specifying this determines pagination is server-side
@@ -70,10 +71,17 @@ export default {
           this.axios.post("/seat", this.seat)
             .then(response => {
                 console.log(response)
+                
+                if(!this.isEdit){
                 this.seats.push(response.data)
+                this.$q.notify({color: 'positive', message: '添加成功！', icon: 'tag_faces'})
+              }else{
+                this.$q.notify({color: 'positive', message: '修改成功！', icon: 'tag_faces'})
+              }
             })
             .catch(error => {
                 console.log(error)
+                this.$q.notify({color: 'negative', message: '喔,出问题了~', icon: 'face'})
             })
       },
       deleteSeat(){
@@ -93,7 +101,12 @@ export default {
       resetSeat(){
         console.log("reset seat ... ")
         this.seat = this.selectedSeat[0]
+        this.isEdit = true
         console.log(this.seat)
+      },
+      cancelEdit(){
+        this.isEdit=false
+        this.seat = {onSale:true}
       },
       request({pagination}){
         this.loading = true

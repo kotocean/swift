@@ -7,7 +7,7 @@ import routes from './routes'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 //global axios defaults
-axios.defaults.baseURL = 'http://localhost:8081'
+axios.defaults.baseURL = 'http://192.168.0.7:8081'
 axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 Vue.use(VueAxios,axios)
 

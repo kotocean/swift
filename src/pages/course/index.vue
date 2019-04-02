@@ -19,9 +19,35 @@
       ]"
     />
   </div>
-        <q-btn color="secondary" label="提交" @click="postCourse"/>
+        <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postCourse"/>
     </div>
+    <q-table
+      :data="courses"
+      :columns="columns"
+      selection="single"
+      :selected.sync="selectedCourse"
+      :pagination.sync="serverPagination"
+      :loading="loading"
+      @request="request"
+      row-key="id"
+      color="secondary"
+      title="请先选择要删除和编辑的数据行"
+      rows-per-page-label="每页显示行数："
+    >
+      <template slot="top-selection" slot-scope="props">
+        <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetCourse"/>
+        <q-btn color="brown" flat label="取消编辑" @click="cancelEdit" />
+        <div class="col" />
+        <q-btn color="negative" flat round icon="delete" @click="deleteCourse" />
+        <q-btn
+          flat round dense
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen"
+        />
+      </template>
+    </q-table>
   </div>
+  
 </template>
 
 <script>
@@ -29,6 +55,13 @@
 export default {
   data () {
     return {
+      loading: false,
+      isEdit: false,
+      serverPagination: {
+        page: 1,
+        rowsNumber: 10, // specifying this determines pagination is server-side
+        rowsPerPage: 3
+      },
       course:{
           name: null,
           abbr: null,
@@ -37,7 +70,17 @@ export default {
           onSale: true,
           // restaurantId: 1
       },
-      courseTypes: ['其他']
+      courseTypes: ['其他'],
+      courses: [],
+      columns: [
+        {name:'id',field:'id', style:'display:none;'},
+        {name:'name', label: '菜品名', field: 'name', align: 'left'},
+        {name:'abbr', label: '拼音首字母',field: 'abbr', align: 'left'},
+        {name:'price', label: '价格', field: 'price', align: 'left', sortable: true},
+        {name:'type', label: '类型',field: 'type', align: 'left'},
+        {name:'onSale', label: '是否在售',field: 'onSale', align: 'left'}
+      ], 
+      selectedCourse: []
     }
   },
   computed: {
@@ -59,6 +102,9 @@ export default {
       .catch(error => {
         console.log(error)
       })
+    this.request({
+      pagination: this.serverPagination
+    })
   },
   methods: {
       postCourse() {
@@ -66,11 +112,56 @@ export default {
           console.log(this.course)
           this.axios.post("/course", this.course)
             .then(response => {
-                console.log(response)
+              // 添加而非编辑时，需要加入到table中
+              if(!this.isEdit){
+                this.courses.push(response.data)
+                this.$q.notify({color: 'positive', message: '添加成功！', icon: 'tag_faces'})
+              }else{
+                this.$q.notify({color: 'positive', message: '修改成功！', icon: 'tag_faces'})
+              }              
+              console.log(response)
             })
             .catch(error => {
-                console.log(error)
+              console.log(error)
+              this.$q.notify({color: 'negative', message: '喔,出问题了~', icon: 'face'})
             })
+      },
+      deleteCourse(){
+        console.log("delete course ...")
+        var course = this.selectedSeat[0]
+        this.axios.delete('/course', {
+          data: course
+        })
+          .then(response => {
+            console.log(response)
+            this.courses.pop(course)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      resetCourse(){
+        console.log("reset course ... ")
+        this.course = this.selectedCourse[0]
+        this.isEdit = true
+        console.log(this.course)
+      },
+      cancelEdit(){
+        this.isEdit=false
+        this.course = {onSale:true}
+      },
+      request({pagination}){
+        this.loading = true
+        this.axios.get(`/course?page=${pagination.page-1}&size=${pagination.rowsPerPage}`)
+          .then(res => {
+            this.serverPagination = pagination
+            this.serverPagination.rowsNumber = res.data.totalElements
+            this.courses = res.data.content
+            this.loading = false
+          })
+          .catch(err => {
+            this.loading = false
+          })
       }
   }
 }
