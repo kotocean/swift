@@ -2,7 +2,7 @@
   <q-page class="row justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
     <div class="q-mt-md q-mx-xs" style="width: 500px; max-width: 120vw;" v-for="(cart, index) in cartList" v-bind:key="index">
-      <q-list highlight inset-separator>
+      <q-list highlight inset-separator v-if="cart.cartItemList.length!=0">
         <q-list-header>{{ convertDate(cart.lastDate) }}</q-list-header>
         <q-item multiline v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
           <q-item-side image="statics/boy-avatar.png" />
