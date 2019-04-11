@@ -1,12 +1,11 @@
 <template>
-  <q-page class="flex flex-top">
+  <q-page class="row justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
-    <div class="q-mt-md q-mx-xs" v-for="(cart, index) in cartList" v-bind:key="index">
+    <div class="q-mt-md q-mx-xs" style="width: 500px; max-width: 120vw;" v-for="(cart, index) in cartList" v-bind:key="index">
       <q-list highlight inset-separator>
+        <q-list-header>{{ convertDate(cart.lastDate) }}</q-list-header>
         <q-item multiline v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
-          <q-item-side>
-            <img src="statics/boy-avatar.png" width="90px"/>
-          </q-item-side>
+          <q-item-side image="statics/boy-avatar.png" />
           <q-item-main>
             <q-item-tile label lines="1">{{ cartItem.course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">
@@ -21,13 +20,24 @@
           </q-item-side>
         </q-item>
       </q-list>
-     
-      <div>
-        <q-btn color="primary" label="提交订单" @click="showModal(index)">
-          <q-icon name="assignment" />
-        </q-btn>
-      </div>
-
+    </div>
+    <div>
+      
+      <q-page-sticky position="bottom-right" :offset="[16, 16]">
+          <q-btn color="light-blue">
+            <q-icon name="add_shopping_cart" />
+            <q-popover>
+              <div class="group" style="width: 220px; text-align: center;">
+                <q-btn color="primary" v-close-overlay label="提交订单" @click="showModal()">
+                  <q-icon name="assignment" />
+                </q-btn>
+                <q-btn v-close-overlay label="删除" @click="clear()">
+                  <q-icon name="clear" />
+                </q-btn>
+              </div>
+            </q-popover>
+          </q-btn>
+        </q-page-sticky>
     </div>   
     <q-modal v-model="maximizedModal" maximized>
         
@@ -58,11 +68,13 @@
 </style>
 
 <script>
+import moment from 'moment-timezone'
+
 export default {
   name: 'PageIndex',
   data(){
     return {
-      cartList: {},
+      cartList: [],
       maximizedModal: false,
       order:{
         orderItemList: [],
@@ -70,7 +82,7 @@ export default {
         totalPrice: 0,
       },
       seatOptions: [],
-      currentCartId: null,
+      modifiedCartIdx: [],
     }
   },
   created(){
@@ -104,15 +116,21 @@ export default {
       this.axios.post('/order', this.order)
         .then(response => {
           console.log(response)
-          // 改变cart的状态
-          var cart = this.cartList[this.currentCartId]
-          cart.state = true //该购物车已下单
-          this.axios.post('/cart', cart).then(response => {
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          for(var index in this.modifiedCartIdx){
+            var target = this.modifiedCartIdx[index]
+            // 改变cart的状态
+            console.log(index)
+            
+            var cart = this.cartList[target.cartIndex]
+            cart.cartItemList[target.itemIndex].state=true //标记为已提交为orderItem
+            this.axios.post('/cart', cart).then(response => {
+              console.log(response)
+              this.cartList[target.cartIndex].cartItemList.pop(target.itemIndex)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+          }
           // 处理cart完成
         })
         .catch(error => {
@@ -128,27 +146,33 @@ export default {
       this.order.orderItemList = []
       this.order.totalPrice = 0
     },
-    showModal(cartId){
+    showModal(){
       //显示Model
       this.maximizedModal = true
-      console.log(cartId)
-      this.currentCartId = cartId
-      var cart = this.cartList[cartId]
-      // console.log(cart)
-      for( var index in cart.cartItemList){
-        var cartItem = cart.cartItemList[index]
-        if(typeof(cartItem.checked)==='undefined' || cartItem.checked===true){
-          var orderItem = {}
-          // console.log(cartItem)
-          orderItem.count = cartItem.count
-          orderItem.name = cartItem.course.name
-          orderItem.price = cartItem.course.price
-          orderItem.type = cartItem.course.type
-          this.order.orderItemList.push(orderItem)
-          this.order.totalPrice += orderItem.price
+      for(var cartIndex in this.cartList){
+        var cart = this.cartList[cartIndex]
+        console.log(cart)
+        for( var index in cart.cartItemList){
+          var cartItem = cart.cartItemList[index]
+          if(typeof(cartItem.checked)==='undefined' || cartItem.checked===true){
+            var orderItem = {}
+            // console.log(cartItem)
+            orderItem.count = cartItem.count
+            orderItem.name = cartItem.course.name
+            orderItem.price = cartItem.course.price
+            orderItem.type = cartItem.course.type
+            this.order.orderItemList.push(orderItem)
+            this.order.totalPrice += orderItem.price
+
+            this.modifiedCartIdx.push({'cartIndex': cartIndex, 'itemIndex': index})
+          }
         }
       }
         console.log(this.order)
+    },
+    convertDate(date){
+      moment.locale();
+      return moment(date).format('YYYY-MM-DD hh:mm:ss');
     }
   },
 }

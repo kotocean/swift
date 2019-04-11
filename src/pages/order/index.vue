@@ -1,5 +1,5 @@
 <template>
-    <q-tabs align="justify">
+    <q-tabs class="row justify" >
 
         <q-tab default slot="title" name="tab-1" icon="message" label="未结账"/>
         <q-tab slot="title" name="tab-2" icon="fingerprint" label="已结账" @click="showCompleteOrder()"/>
@@ -57,10 +57,10 @@ export default {
     },
     mounted() {
         this.axios.get('/order',{
-                params: {
-                    checkout: false
-                }
-            })
+            params: {
+                checkout: false
+            }
+        })
             .then(res => {
                 console.log(res)
                 this.incompleteOrderList = res.data.content
@@ -100,18 +100,18 @@ export default {
                 })
         },
         showCompleteOrder(){
-            this.axios.get('/order',{
+            this.axios.get('/order', {
                 params: {
                     checkout: true
                 }
             })
-            .then(res => {
-                console.log(res)
-                this.completeOrderList = res.data.content
-            })
-            .catch(err => {
-                console.log(res)
-            })
+                .then(res => {
+                    console.log(res)
+                    this.completeOrderList = res.data.content
+                })
+                .catch(err => {
+                    console.log(res)
+                })
         }
     },
 }

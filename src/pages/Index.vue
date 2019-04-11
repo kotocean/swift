@@ -1,12 +1,10 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="row justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
-    <div>
+    <div style="width: 500px; max-width: 120vw;" class="q-mt-md q-mx-xs">
       <q-list highlight inset-separator>
         <q-item multiline v-for="(course, index) in courseList" v-bind:key="index">
-          <q-item-side>
-            <img src="statics/boy-avatar.png" width="90px"/>
-          </q-item-side>
+          <q-item-side image="statics/boy-avatar.png" />
           <q-item-main>
             <q-item-tile label lines="1">{{ course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">

@@ -3,8 +3,6 @@
     <q-layout-header>
       <q-toolbar
         color="primary"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
       >
         <q-btn
           flat
@@ -56,6 +54,10 @@
         <q-item to="/restaurant">
           <q-item-side icon="school" />
           <q-item-main label="餐厅" sublabel="餐厅信息维护" />
+        </q-item>
+        <q-item to="/cart">
+          <q-item-side icon="school" />
+          <q-item-main label="购物车" sublabel="查看购物车" />
         </q-item>
         <q-item to="/order">
           <q-item-side icon="school" />
