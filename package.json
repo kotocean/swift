@@ -10,6 +10,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@websanova/vue-auth": "^2.21.14-beta",
     "axios": "^0.18.0",
     "moment-timezone": "^0.5.23",
     "vue-axios": "^2.1.4",

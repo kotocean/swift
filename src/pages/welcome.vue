@@ -1,6 +1,9 @@
 <template>
     <q-page class="flex flex-center">
         <div row>
+            <q-btn color="primary" label="登录" @click="login()" ></q-btn>
+        </div>
+        <div row>
             <q-input v-model="restaurantId" stack-label="餐厅ID"/>
             <q-btn color="primary" label="确认选择" @click="submitRestaurant()" ></q-btn>
             <q-btn color="primary" label="查看餐厅" @click="chooseRestaurant()" ></q-btn>
@@ -16,6 +19,12 @@ export default {
         }
     },
     methods: {
+        login(){
+            this.$auth.oauth2({
+                provider: 'keycloak',
+                params:{}
+            })
+        },
         chooseRestaurant(){
             console.log(this.$store.state.restaurant.id)
         },
