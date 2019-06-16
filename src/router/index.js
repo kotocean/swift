@@ -26,8 +26,7 @@ Vue.use(VueAuth, {
       client_id: 'sky'
     },
     response_type: 'token'
-  },
-  fetchData: { url: 'auth/user', method: 'GET', enabled: false}
+  }
 });
 
 /*

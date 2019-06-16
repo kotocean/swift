@@ -17,7 +17,6 @@ export default {
           name: null,
           address: null,
           isAudit: false,
-          userId: 1
       }
     }
   },

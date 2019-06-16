@@ -1,21 +1,40 @@
 <template>
   <div>
       <q-btn color="primary" label="查看菜品" @click="getCourse()" ></q-btn>
+      <div>
+          {{ user.name }}/{{ user.username }}
+      </div>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+        user:{
+            username: '',
+            name:''
+        }
+    };
   },
   mounted() {
-    console.log(this.getUrlParamString(window.location.href, 'access_token'));
+    // console.log(this.getUrlParamString(window.location.href, 'access_token'));
     var access_token = this.getUrlParamString(window.location.href, 'access_token');
     var token_type = this.getUrlParamString(window.location.href, 'token_type')
     var expires_in = this.getUrlParamString(window.location.href, 'expires_in');
     var state = this.getUrlParamString(window.location.href, 'state')
     this.$auth.token(null, access_token)
+    this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
+    this.axios.get('/userinfo')
+        .then(response=>{
+            console.log(response.data)
+            this.user = response.data
+            localStorage.setItem('user', JSON.stringify(response.data)) //保存已登录用户信息
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    this.$router.replace('/welcome')
   },
   methods: {
     getUrlParamString(url, name) {

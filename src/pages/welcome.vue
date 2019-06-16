@@ -18,11 +18,24 @@ export default {
             restaurantId: 0,
         }
     },
+    mounted(){
+        if(this.$auth.check()){
+            this.login()
+        }else{
+            this.axios.get('/restaurant/guid')
+                .then(response=>{
+                    console.log(response)
+                })
+                .catch(error=>{
+                    console.log(error)
+                })
+        }
+    },
     methods: {
         login(){
             this.$auth.oauth2({
                 provider: 'keycloak',
-                params:{}
+                params:{},
             })
         },
         chooseRestaurant(){
