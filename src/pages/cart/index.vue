@@ -85,8 +85,13 @@ export default {
       modifiedCartIdx: [],
     }
   },
+  computed: {
+    restaurantId(){
+      return this.$store.state.restaurant.id
+    }
+  },
   created(){
-    this.axios.get('/cart')
+    this.axios.get('/cart?restaurantId='+this.restaurantId)
             .then(response => {
                 console.log(response)
                 this.cartList = response.data.content
@@ -94,13 +99,13 @@ export default {
             .catch(error => {
                 console.log(error)
             })
-    this.axios.get('/seat')
+    this.axios.get('/seat?restaurantId='+this.restaurantId)
       .then(response => {
                 console.log(response)
                 var seatList = response.data.content
                 for(var i in seatList){
                   var seat = seatList[i]
-                  this.seatOptions.push({label: seat.name, value: seat.name})
+                  this.seatOptions.push({label: seat.name+"(最多可容纳"+seat.capacity+"人)", value: seat.name})
                 }
             })
             .catch(error => {
@@ -111,7 +116,7 @@ export default {
     submitOrder(){
       this.order.createdDate = (new Date()).toISOString()
       this.order.userId = 1
-      this.order.restaurantId = 1
+      this.order.restaurantId = this.restaurantId
 
       this.axios.post('/order', this.order)
         .then(response => {
@@ -124,8 +129,9 @@ export default {
             var cart = this.cartList[target.cartIndex]
             cart.cartItemList[target.itemIndex].state=true //标记为已提交为orderItem
             this.axios.post('/cart', cart).then(response => {
-              console.log(response)
+              // console.log(response)
               this.cartList[target.cartIndex].cartItemList.pop(target.itemIndex)
+              this.$router.replace('/order')
             })
             .catch(error => {
               console.log(error)

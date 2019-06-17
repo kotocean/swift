@@ -52,7 +52,7 @@ export default {
     }
   },
   created(){
-    this.axios.get('/course')
+    this.axios.get('/course?restaurantId='+this.restaurantId)
             .then(response => {
                 console.log(response)
                 this.courseList = response.data.content

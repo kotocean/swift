@@ -19,7 +19,10 @@
       ]"
     />
   </div>
-        <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postCourse"/>
+        <q-btn-group>
+          <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postCourse"/>
+          <q-btn color="primary" label="清空" @click="clearCourse"/>
+        </q-btn-group>
     </div>
     <q-table
       :data="courses"
@@ -68,7 +71,6 @@ export default {
           price: null,
           type: null,
           onSale: true,
-          // restaurantId: 1
       },
       courseTypes: ['其他'],
       courses: [],
@@ -90,7 +92,7 @@ export default {
   },
   mounted() {
     console.log(this.restaurantId)
-    this.axios.get("/courseType")
+    this.axios.get("/courseType?restaurantId="+this.restaurantId)
       .then(response => {
         console.log(response)
         var courseTypeList = response.data.content
@@ -126,6 +128,15 @@ export default {
               this.$q.notify({color: 'negative', message: '喔,出问题了~', icon: 'face'})
             })
       },
+      clearCourse(){
+        this.course = {
+            name: null,
+            abbr: null,
+            price: null,
+            type: null,
+            onSale: true,
+        }
+      },
       deleteCourse(){
         console.log("delete course ...")
         var course = this.selectedSeat[0]
@@ -152,7 +163,7 @@ export default {
       },
       request({pagination}){
         this.loading = true
-        this.axios.get(`/course?page=${pagination.page-1}&size=${pagination.rowsPerPage}`)
+        this.axios.get(`/course?page=${pagination.page-1}&size=${pagination.rowsPerPage}&restaurantId=${this.restaurantId}`)
           .then(res => {
             this.serverPagination = pagination
             this.serverPagination.rowsNumber = res.data.totalElements

@@ -13,8 +13,6 @@ axios.defaults.baseURL = 'http://localhost:8081'
 // axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 Vue.use(VueAxios,axios)
 
-Vue.use(VueRouter)
-
 Vue.use(VueAuth, {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
@@ -28,6 +26,8 @@ Vue.use(VueAuth, {
     response_type: 'token'
   }
 });
+
+Vue.use(VueRouter)
 
 /*
  * If not building with SSR mode, you can

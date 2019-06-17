@@ -55,8 +55,13 @@ export default {
             completeOrderList: []
         }
     },
+    computed: {
+        restaurantId() {
+        return this.$store.state.restaurant.id;
+        }
+    },
     mounted() {
-        this.axios.get('/order',{
+        this.axios.get('/order?restaurantId='+this.restaurantId,{
             params: {
                 checkout: false
             }
@@ -100,7 +105,7 @@ export default {
                 })
         },
         showCompleteOrder(){
-            this.axios.get('/order', {
+            this.axios.get('/order?restaurantId='+this.restaurantId, {
                 params: {
                     checkout: true
                 }

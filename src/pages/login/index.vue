@@ -30,11 +30,13 @@ export default {
             console.log(response.data)
             this.user = response.data
             localStorage.setItem('user', JSON.stringify(response.data)) //保存已登录用户信息
+            this.$auth.user(response.data)
+            this.$auth.check = function(){return true;}
+            this.$router.replace('/welcome')
         })
         .catch(error=>{
             console.log(error)
         })
-    this.$router.replace('/welcome')
   },
   methods: {
     getUrlParamString(url, name) {
