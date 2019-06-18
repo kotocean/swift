@@ -1,6 +1,7 @@
 <template>
     <q-page class="flex flex-center">
-        <div class="q-pa-sm">
+        <p class="q-pt-sm">请，首先选择一个餐厅进行操作！</p>
+        <div class="q-pa-sm">            
             <q-card class="q-ma-md" inline v-for="(item, idx) in restaurants" v-bind:key="idx">
                 <!-- <q-card-media>
                     <img src="~assets/donuts.png">
@@ -21,7 +22,7 @@
                     <q-btn flat round dense icon="event" />
                     <q-btn flat label="9:30-14:00" />
                     <q-btn flat label="16:30-21:30" />
-                    <q-btn color="primary" label="进入餐厅" @click="chooseRestaurant(item.id)" />
+                    <q-btn color="primary" label="进入餐厅" @click="chooseRestaurant(item)" />
                 </q-card-actions>
             </q-card>
         </div>
@@ -44,10 +45,10 @@ export default {
             })
     },
     methods: {
-        chooseRestaurant(id){
-            this.$store.commit('restaurant/setId', id)
+        chooseRestaurant(item){
+            this.$store.commit('restaurant/setRestaurant', item)
             this.$router.push('/')
-        }
+        },
     },
 }
 </script>

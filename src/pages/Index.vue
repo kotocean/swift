@@ -76,7 +76,7 @@ export default {
       for(var i=0; i<this.checkedCourseList.length; i++){
         if(this.checkedCourseList[i]){
           var cartItem = {}
-          cartItem.count = 1
+          cartItem.count = 1 //?
           cartItem.course = this.courseList[i]
           
           this.cart.cartItemList.push(cartItem)

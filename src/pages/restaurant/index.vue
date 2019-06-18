@@ -1,37 +1,42 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 400px">
-        <q-input  v-model="restaurant.name" stack-label="餐厅名字" placeholder="请输入，如河南烩面馆"/>
-        <q-input  v-model="restaurant.address" stack-label="地址" placeholder="请输入，如西直门地铁站向西200米"/>
-        <q-btn color="secondary" label="提交" @click="postRestaurant"/>
+      <q-input v-model="restaurant.name" stack-label="餐厅名字" placeholder="请输入，如河南烩面馆"/>
+      <q-input v-model="restaurant.address" stack-label="地址" placeholder="请输入，如西直门地铁站向西200米"/>
+      <q-btn color="secondary" label="提交" @click="postRestaurant"/>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  data () {
+  data() {
     return {
-      restaurant:{
-          name: null,
-          address: null,
-          isAudit: false,
+      restaurant: {
+        name: null,
+        address: null,
+        isAudit: false
       }
-    }
+    };
   },
   methods: {
-      postRestaurant() {
-          console.log(this.restaurant)
-          this.restaurant.createdDate = new Date()
-          this.axios.post("/restaurant", this.restaurant)
-            .then(response => {
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error)
-            })
-      }
+    postRestaurant() {
+      console.log(this.restaurant);
+      this.restaurant.createdDate = new Date();
+      this.axios
+        .post("/restaurant", this.restaurant)
+        .then(response => {
+          console.log(response);
+          this.$q.notify({
+            color: "positive",
+            message: "添加成功！",
+            icon: "tag_faces"
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
-}
+};
 </script>

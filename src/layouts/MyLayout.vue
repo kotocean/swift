@@ -7,14 +7,16 @@
         </q-btn>
 
         <q-toolbar-title>
-          点餐云
-          <div slot="subtitle">一款有温度的餐饮管理软件</div>
+          {{ title }}
+          <div slot="subtitle"> {{ subtitle }}</div>
         </q-toolbar-title>
-        <q-btn color="secondary" label="登录" @click="login()"/>
+        {{ $auth.user().name }} &nbsp;&nbsp;
+        <q-btn color="secondary" label="退出" @click="logout()"/>
       </q-toolbar>
     </q-layout-header>
 
     <q-layout-drawer
+      v-if="isSelectedRestaurant"
       v-model="leftDrawerOpen"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
@@ -72,16 +74,40 @@ export default {
       user: {}
     };
   },
-  created() {
-    this.user = JSON.parse(localStorage.getItem("user"));
+  computed: {
+    isSelectedRestaurant(){
+      return this.$store.state.restaurant.id>0;
+    },
+    title(){
+        console.log('title')
+      if(this.isSelectedRestaurant){
+        return this.$store.state.restaurant.name
+      }else{
+        return '点餐云'
+      }
+    },
+    subtitle(){
+      if(this.isSelectedRestaurant){
+        return this.$store.state.restaurant.address
+      }else{
+        return '一款有温度的餐饮管理软件'
+      }
+    }
+  },
+  mounted() {
+    if(!this.$auth.check()){
+      this.$router.replace("/login")
+    }else{
+      this.user = this.$auth.user()
+    }  
+    
   },
   methods: {
     openURL,
-    login() {
-      this.$auth.oauth2({
-        provider: "keycloak",
-        params: {}
-      });
+    logout(){
+      this.$auth.check = function(){return false;}
+      localStorage.removeItem('default_auth_token')
+      this.$router.replace("/login")
     }
   }
 };
