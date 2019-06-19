@@ -5,6 +5,34 @@
       <q-input v-model="restaurant.address" stack-label="地址" placeholder="请输入，如西直门地铁站向西200米"/>
       <q-btn color="secondary" label="提交" @click="postRestaurant"/>
     </div>
+    <q-table
+      :data="restaurants"
+      :columns="columns"
+      selection="single"
+      :selected.sync="selectedRestaurant"
+      :pagination.sync="serverPagination"
+      :loading="loading"
+      @request="request"
+      row-key="id"
+      color="secondary"
+      title="请先选择要删除和编辑的数据行"
+      rows-per-page-label="每页显示行数："
+    >
+      <template slot="top-selection" slot-scope="props">
+        <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetRestaurant"/>
+        <q-btn color="brown" flat label="取消编辑" @click="cancelEdit"/>
+        <q-btn color="brown" flat label="进入餐厅" @click="enterRestaurant"/>
+        <div class="col"/>
+        <q-btn color="negative" flat round icon="delete" @click="deleteRestaurant"/>
+        <q-btn
+          flat
+          round
+          dense
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen"
+        />
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -15,9 +43,29 @@ export default {
       restaurant: {
         name: null,
         address: null,
-        isAudit: false
-      }
+        audit: false
+      },
+      loading: false,
+      isEdit: false,
+      serverPagination: {
+        page: 1,
+        rowsNumber: 10, // specifying this determines pagination is server-side
+        rowsPerPage: 3
+      },
+      restaurants: [],
+      columns: [
+        { name: "id", field: "id", style: "display:none;" },
+        { name: "name", label: "餐厅名字", field: "name", align: "left" },
+        { name: "address", label: "地址", field: "address", align: "left" },
+        { name: "audit", label: "审核状态", field: "audit", align: "left" }
+      ],
+      selectedRestaurant: []
     };
+  },
+  mounted() {
+    this.request({
+      pagination: this.serverPagination
+    });
   },
   methods: {
     postRestaurant() {
@@ -36,6 +84,59 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    clearRestaurant() {
+      this.restaurant = {
+        name: null,
+        address: null,
+        audit: false
+      };
+    },
+    deleteRestaurant() {
+      console.log("delete restaurant ...");
+      var restaurant = this.selectedRestaurant[0];
+      this.axios
+        .delete("/restaurant", {
+          data: restaurant
+        })
+        .then(response => {
+          console.log(response);
+          this.restaurants.pop(restaurant);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    resetRestaurant() {
+      console.log("reset restaurant ... ");
+      this.restaurant = this.selectedRestaurant[0];
+      this.isEdit = true;
+      console.log(this.restaurant);
+    },
+    cancelEdit() {
+      this.isEdit = false;
+    },
+    request({ pagination }) {
+      this.loading = true;
+      this.axios
+        .get(
+          `/restaurant?page=${pagination.page - 1}&size=${
+            pagination.rowsPerPage
+          }`
+        )
+        .then(res => {
+          this.serverPagination = pagination;
+          this.serverPagination.rowsNumber = res.data.totalElements;
+          this.restaurants = res.data.content;
+          this.loading = false;
+        })
+        .catch(err => {
+          this.loading = false;
+        });
+    },
+    enterRestaurant(){
+      this.$store.commit('restaurant/setRestaurant', this.selectedRestaurant[0])
+      this.$router.push('/')
     }
   }
 };

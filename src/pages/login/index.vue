@@ -1,7 +1,9 @@
 <template>
-    <q-card inline>
+  <div class="flex flex-center q-mt-sm">
+    <!-- <p>欢迎使用“点餐云”管理您的餐厅</p> -->
+    <q-card inline style="max-width: 600px;">
       <q-card-media>
-        <img src="statics/map-meishi.png">
+        <img src="statics/show-img.png">
       </q-card-media>
       <q-card-title>
         点餐云
@@ -17,6 +19,8 @@
         <q-btn color="primary" label="登录" @click="login()"/>
       </q-card-actions>
     </q-card>
+  </div>
+    
 </template>
 
 <script>
