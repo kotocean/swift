@@ -75,6 +75,7 @@ export default {
         .post("/restaurant", this.restaurant)
         .then(response => {
           console.log(response);
+          this.restaurants.push(response.data)
           this.$q.notify({
             color: "positive",
             message: "添加成功！",

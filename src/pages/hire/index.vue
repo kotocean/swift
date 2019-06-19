@@ -2,9 +2,9 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
       <div>
-      <q-input v-model="hire.userGuid" stack-label="员工GUID" placeholder="员工唯一编号"/>
+      <q-input v-model="hire.guid" stack-label="员工GUID" placeholder="员工唯一编号"/>
       <q-input v-model="hire.name" stack-label="员工姓名" placeholder="员工姓名"/>
-      <q-btn-toggle
+      <q-btn-toggle disable
         v-model="hire.state"
         toggle-color="primary"
         :options="[
@@ -36,7 +36,7 @@
           <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetHire"/>
           <q-btn color="brown" flat label="取消编辑" @click="cancelEdit"/>
           <div class="col"/>
-          <q-btn color="negative" flat round icon="delete" @click="deleteHire"/>
+          <q-btn flat label="解雇" @click="deleteHire"/>
           <q-btn
             flat
             round
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       hire: {
-        userGuid: "",
+        guid: "",
         name: "",
         state: true
       },
@@ -69,7 +69,7 @@ export default {
       hires: [],
       columns: [
         { name: "id", field: "id", style: "display:none;" },
-        { name: "userGuid", label: "员工编号", field: "userGuid", align: "left" },
+        { name: "guid", label: "员工编号", field: "guid", align: "left" },
         { name: "name", label: "姓名", field: "name", align: "left" }
       ],
       selectedHire: []
@@ -125,14 +125,14 @@ export default {
     },
     clearHire() {
       this.hire = {
-        userGuid: "",
+        guid: "",
         name: "",
         state: true
       };
     },
     deleteHire() {
       console.log("cancel hire ...");
-      var hire = this.selectedSeat[0];
+      var hire = this.selectedHire[0];
       this.axios
         .post("/hire/cancel", {
           data: hire
@@ -164,10 +164,11 @@ export default {
           }&restaurantId=${this.restaurantId}`
         )
         .then(res => {
+          console.log(res)
+
           this.serverPagination = pagination;
           this.serverPagination.rowsNumber = res.data.totalElements;
           this.hires = res.data.content;
-          console.log(hires)
           this.loading = false;
         })
         .catch(err => {
