@@ -122,7 +122,8 @@ export default {
         return false;
       };
       localStorage.removeItem("default_auth_token");
-      this.$router.replace("/login");
+      // this.$router.replace("/login");
+      window.location.href = 'http://localhost:8080/auth/realms/master/protocol/openid-connect/logout?redirect_uri=http://localhost:8082/login';
     },
     showUserinfo(){
       this.$q.notify({

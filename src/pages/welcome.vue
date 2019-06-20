@@ -47,17 +47,24 @@ export default {
     },
     created(){
         // 当前登录自己创建的餐厅
-        this.axios.get("/restaurant")
+        this.axios.get("/restaurant/guid")
             .then(response=>{
                 console.log(response.data)
                 this.restaurants = response.data.content
+                console.log(this.restaurants)
             })
         // 当前登录人就职的餐厅
         this.axios.get('/user/restaurants')
             .then(response=>{
-                for(var r in response.data.content){
-                    this.restaurants.push(r)
-                }
+                console.log(this.restaurants.length)
+                console.log(response.data.content)
+                if(this.restaurants.length==0){
+                    this.restaurants = response.data.content
+                }else{
+                    for(var r in response.data.content){
+                        this.restaurants.push(r)
+                    }
+                }                
             })
     },
     methods: {
