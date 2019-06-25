@@ -5,7 +5,7 @@
       <q-list highlight inset-separator v-if="cart.cartItemList.length!=0">
         <q-list-header>{{ convertDate(cart.lastDate) }}</q-list-header>
         <q-item multiline v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
-          <q-item-side image="statics/boy-avatar.png" />
+          <!-- <q-item-side image="statics/boy-avatar.png" /> -->
           <q-item-main>
             <q-item-tile label lines="1">{{ cartItem.course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">

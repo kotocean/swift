@@ -4,7 +4,7 @@
     <div style="width: 500px; max-width: 120vw;" class="q-mt-md q-mx-xs">
       <q-list highlight inset-separator>
         <q-item multiline v-for="(course, index) in courseList" v-bind:key="index">
-          <q-item-side image="statics/boy-avatar.png"/>
+          <!-- <q-item-side image="statics/boy-avatar.png"/> -->
           <q-item-main>
             <q-item-tile label lines="2" style="font-size:14pt;">{{ course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">
