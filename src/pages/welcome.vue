@@ -50,7 +50,7 @@ export default {
             return this.$auth.user().roles.indexOf('shopowner')>0
         }
     },
-    created(){
+    mounted(){
         // 当前登录自己创建的餐厅
         this.axios.get("/restaurant/guid")
             .then(response=>{
