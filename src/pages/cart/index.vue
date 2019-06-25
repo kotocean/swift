@@ -31,9 +31,9 @@
                 <q-btn color="primary" v-close-overlay label="提交订单" @click="showModal()">
                   <q-icon name="assignment" />
                 </q-btn>
-                <q-btn v-close-overlay label="删除" @click="clear()">
+                <!-- <q-btn v-close-overlay label="删除" @click="clear()">
                   <q-icon name="clear" />
-                </q-btn>
+                </q-btn> -->
               </div>
             </q-popover>
           </q-btn>
@@ -53,8 +53,13 @@
           <q-list>
             <q-item v-for="(orderItem, index) in order.orderItemList" v-bind:key="index">
               <q-item-side>{{ index+1 }}.{{orderItem.type }} </q-item-side>
-              <q-item-main :label="orderItem.name" />
-              <q-item-side right>{{ orderItem.price }}</q-item-side>
+              <q-item-main  :label="orderItem.name" />
+              <q-item-side right>{{ orderItem.price }}元</q-item-side>
+            </q-item>
+            <q-item>
+              <q-item-side>总共</q-item-side>
+              <q-item-main>
+                <span style="color: green; font-size: 21pt;">{{ order.totalPrice }}</span> 元</q-item-main>
             </q-item>
           </q-list>
           <q-btn color="tertiary" @click="cancelOrder()" label="取消" />
@@ -90,7 +95,8 @@ export default {
       return this.$store.state.restaurant.id
     }
   },
-  created(){
+  mounted(){
+    console.log('restaurantId: ' + this.restaurantId)
     this.axios.get('/cart?restaurantId='+this.restaurantId)
             .then(response => {
                 console.log(response)
@@ -115,7 +121,7 @@ export default {
   methods: {
     submitOrder(){
       this.order.createdDate = (new Date()).toISOString()
-      this.order.userId = 1
+      // this.order.userId = 1
       this.order.restaurantId = this.restaurantId
 
       this.axios.post('/order', this.order)

@@ -123,17 +123,19 @@ export default {
       };
       localStorage.removeItem("default_auth_token");
       // this.$router.replace("/login");
-      window.location.href = 'http://localhost:8080/auth/realms/master/protocol/openid-connect/logout?redirect_uri=http://localhost:8082/login';
+      window.location.href =
+        "http://localhost:8080/auth/realms/master/protocol/openid-connect/logout?redirect_uri=http://localhost:8082/login";
     },
-    showUserinfo(){
+    showUserinfo() {
       this.$q.notify({
-        message: "姓名："+this.$auth.user().name,
-        detail: "GUID："+this.$auth.user().guid,
-        position: 'top',
-        type: 'info',
-        color: 'info'
-      })
-    },
+        message: "姓名：" + this.$auth.user().name,
+        detail: "GUID：" + this.$auth.user().guid,
+        position: "top",
+        type: "info",
+        color: "info"
+      });
+      console.log(this.$auth.user().guid);
+    }
   }
 };
 </script>

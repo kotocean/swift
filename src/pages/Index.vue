@@ -6,10 +6,9 @@
         <q-item multiline v-for="(course, index) in courseList" v-bind:key="index">
           <q-item-side image="statics/boy-avatar.png"/>
           <q-item-main>
-            <q-item-tile label lines="1">{{ course.name }}</q-item-tile>
+            <q-item-tile label lines="2" style="font-size:14pt;">{{ course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">
-              {{ course.price }}
-              <span>元</span>
+              <span style="font-size:12pt;">{{ course.price }}</span>元
             </q-item-tile>
           </q-item-main>
           <q-item-side right>
@@ -52,7 +51,8 @@ export default {
       return this.$store.state.restaurant.id;
     }
   },
-  created() {
+  mounted(){
+    console.log('restaurantId: ' + this.restaurantId)
     if (this.$auth.user() !== "undefined") {
       this.axios
         .get("/course?restaurantId=" + this.restaurantId)

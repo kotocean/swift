@@ -61,7 +61,8 @@ export default {
       return this.$store.state.restaurant.id
     }
   },
-  mounted() {
+  mounted(){
+    console.log('restaurantId: ' + this.restaurantId)
     this.request({
       pagination: this.serverPagination
     })

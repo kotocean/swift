@@ -1,7 +1,12 @@
 <template>
     <q-page class="flex flex-center">
-        <p class="q-pt-sm">请，首先选择一个餐厅进行操作！</p>
-        <q-btn v-if="isShopOwner" label="添加一个餐厅" @click="addRestaurant()" />
+        <div class="q-pa-lg">
+            <div>您身份的全球唯一标识：
+                <p style="color: green; font-size:12pt;">{{this.$auth.user().guid}}</p></div>
+            <p v-if="isShopOwner">进行其他操作之前，需要先选择一家餐厅进入，才可以开始哦~</p>
+            <p v-else>您还没有拥有或加入任何一家餐厅(告诉店长您的全球唯一标识)。请，先加入或添加一个餐厅！</p>
+        </div>
+        <div><q-btn v-if="isShopOwner" label="添加一个餐厅" @click="addRestaurant()" /></div>
         <div class="q-pa-sm">            
             <q-card class="q-ma-md" inline v-for="(item, idx) in restaurants" v-bind:key="idx">
                 <!-- <q-card-media>

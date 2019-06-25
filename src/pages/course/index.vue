@@ -90,8 +90,8 @@ export default {
       return this.$store.state.restaurant.id
     }
   },
-  mounted() {
-    console.log(this.restaurantId)
+  mounted(){
+    console.log('restaurantId: ' + this.restaurantId)
     this.axios.get("/courseType?restaurantId="+this.restaurantId)
       .then(response => {
         console.log(response)

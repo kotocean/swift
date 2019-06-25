@@ -83,8 +83,8 @@ export default {
       return this.$store.state.restaurant.name;
     }
   },
-  mounted() {
-    console.log(this.restaurantId);
+  mounted(){
+    console.log('restaurantId: ' + this.restaurantId)
     this.request({
       pagination: this.serverPagination
     });
