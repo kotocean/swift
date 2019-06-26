@@ -77,6 +77,22 @@
             </q-item>
           </q-list>
         </q-collapsible>
+        <div class="flex justify-center q-mt-md">
+          <q-btn
+            v-if="!isActiveFullScreen"
+            color="primary"
+            label="全屏"
+            icon="fullscreen"
+            @click="toggleFullScreen"
+          />
+          <q-btn
+            v-else
+            color="secondary"
+            icon="fullscreen_exit"
+            label="退出全屏"
+            @click="toggleFullScreen"
+          />
+        </div>
       </q-layout-drawer>
 
       <q-page-container>
@@ -95,7 +111,8 @@ export default {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
       user: {},
-      showing: false
+      showing: false,
+      isActiveFullScreen: false
     };
   },
   computed: {
@@ -145,6 +162,15 @@ export default {
         color: "info"
       });
       console.log(this.$auth.user().guid);
+    },
+    toggleFullScreen() {
+      if (this.$q.fullscreen.isCapable) {
+        this.isActiveFullScreen = !this.isActiveFullScreen;
+        // 切换全屏模式：
+        this.$q.fullscreen.toggle();
+      } else {
+        this.$q.notify({color: 'negtive', message: '抱歉，当前浏览器不支持全屏！', icon: 'pets'})
+      }
     }
   }
 };

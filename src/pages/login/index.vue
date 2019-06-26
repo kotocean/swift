@@ -5,22 +5,19 @@
       <q-card-media>
         <img src="statics/show-img.png">
       </q-card-media>
-      <q-card-title>
-        点餐云
-      </q-card-title>
+      <q-card-title>点餐云</q-card-title>
       <q-card-main>
         <p>恭祝您，财源滚滚来~</p>
         <p class="text-faded">我们的宗旨是，用心服务好每一个餐饮人.</p>
       </q-card-main>
       <q-card-separator/>
       <q-card-actions align="end">
-        <q-btn flat :label="localDate" />
-        <q-btn flat :label="localTime" />
+        <q-btn flat :label="localDate"/>
+        <q-btn flat :label="localTime"/>
         <q-btn color="primary" label="登录" @click="login()"/>
       </q-card-actions>
     </q-card>
   </div>
-    
 </template>
 
 <script>
@@ -30,16 +27,17 @@ export default {
       user: {
         username: "",
         name: ""
-      }
+      },
+      count: 1
     };
   },
   computed: {
-      localDate(){
-        return (new Date()).toLocaleDateString();
-      },
-      localTime(){
-        return (new Date()).toLocaleTimeString();
-      }
+    localDate() {
+      return new Date().toLocaleDateString();
+    },
+    localTime() {
+      return new Date().toLocaleTimeString();
+    }
   },
   mounted() {
     // console.log(this.getUrlParamString(window.location.href, 'access_token'));
