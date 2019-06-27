@@ -94,10 +94,11 @@
             </q-item-main>
           </q-item>
         </q-list>
-        <div class="flex justify-end">
-        <q-btn color="tertiary" @click="cancelOrder()" label="取消"/>
-        <q-btn color="primary" @click="submitOrder()" label="下单"/>
-        </div>
+        <table style="width:100%">
+          <tr><td>
+          <q-btn color="tertiary" @click="cancelOrder()" label="取消"/></td><td>
+          <q-btn class="full-width" color="primary" @click="submitOrder()" label="下单"/></td></tr>
+        </table>
       </div>
     </q-modal>
   </q-page>
