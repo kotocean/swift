@@ -13,11 +13,13 @@
         ]"
       />
       </div>
-      <div>
-        <q-btn-group>
-          <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postHire"/>
-          <q-btn color="primary" label="清空" @click="clearHire"/>
-        </q-btn-group>
+
+        <table class="q-mb-sm">
+          <tr>
+            <td><q-btn class="full-width" color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postHire"/></td>
+            <td><q-btn class="full-width" color="primary" label="清空" @click="clearHire"/></td>
+          </tr>
+        </table>
       </div>
       <q-table
         :data="hires"
@@ -46,7 +48,7 @@
           />
         </template>
       </q-table>
-    </div>
+    
   </div>
 </template>
 

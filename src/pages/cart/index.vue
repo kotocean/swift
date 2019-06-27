@@ -1,8 +1,8 @@
 <template>
-  <q-page class="flex justify-center">
+  <q-page class="row justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
     <div
-      class="q-mt-md q-mx-xs"
+      class="q-mt-md q-px-sm full-width"
       v-for="(cart, index) in cartList"
       v-bind:key="index"
     >
@@ -59,7 +59,7 @@
       </q-page-sticky>
     </div>
     <q-modal v-model="maximizedModal" maximized>
-      <div class="q-mt-xl q-ma-sm">
+      <div class="q-mt-xl q-mx-md">
         <p>订单详情，即将下单 ... ...</p>
         <q-input v-model="order.numberOfDiners" stack-label="就餐人数"/>
         <q-select v-model="order.seatName" stack-label="桌位" radio :options="seatOptions"/>
@@ -228,7 +228,8 @@ export default {
             cartItem.checked === true
           ) {
             var orderItem = {};
-            // console.log(cartItem)
+            // 默认不打折，可在实际结账时打折扣
+            orderItem.discount = 1
             orderItem.count = cartItem.count;
             orderItem.name = cartItem.course.name;
             orderItem.price = cartItem.course.price;

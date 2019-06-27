@@ -55,26 +55,26 @@
 
         <q-collapsible icon="perm_identity" label="信息维护区" icon-toggle>
           <q-list>
-            <q-item to="/restaurant">
-              <q-item-side icon="filter_1"/>
-              <q-item-main label="餐厅" sublabel="餐厅信息维护"/>
-            </q-item>
-            <q-item to="/hire">
-              <q-item-side icon="filter_2"/>
-              <q-item-main label="员工" sublabel="员工管理"/>
-            </q-item>
             <q-item to="/seat">
-              <q-item-side icon="filter_3"/>
+              <q-item-side icon="filter_1"/>
               <q-item-main label="席位" sublabel="席位信息维护"/>
             </q-item>
             <q-item to="/course/type">
-              <q-item-side icon="filter_4"/>
+              <q-item-side icon="filter_2"/>
               <q-item-main label="菜品类型" sublabel="菜品类型维护"/>
             </q-item>
             <q-item to="/course">
-              <q-item-side icon="filter_5"/>
+              <q-item-side icon="filter_3"/>
               <q-item-main label="菜品" sublabel="菜品信息维护"/>
             </q-item>
+            <q-item to="/hire">
+              <q-item-side icon="filter_4"/>
+              <q-item-main label="员工" sublabel="员工管理"/>
+            </q-item>
+            <q-item to="/restaurant">
+              <q-item-side icon="filter_5"/>
+              <q-item-main label="餐厅" sublabel="餐厅信息维护"/>
+            </q-item>            
           </q-list>
         </q-collapsible>
         <div class="flex justify-center q-mt-md">

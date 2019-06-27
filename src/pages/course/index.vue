@@ -19,10 +19,12 @@
       ]"
     />
   </div>
-        <q-btn-group>
-          <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postCourse"/>
-          <q-btn color="primary" label="清空" @click="clearCourse"/>
-        </q-btn-group>
+        <table class="q-mb-sm">
+          <tr>
+            <td><q-btn class="full-width" color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postCourse"/></td>
+            <td><q-btn class="full-width" color="primary" label="清空" @click="clearCourse"/></td>
+          </tr>
+        </table>
     </div>
     <q-table
       :data="courses"

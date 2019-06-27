@@ -1,7 +1,8 @@
 <template>
   <q-page class="row justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
-    <div style="width: 500px; max-width: 120vw;" class="q-mt-md q-mx-xs">
+     <!-- style="width: 500px; max-width: 120vw;" -->
+    <div class="q-mt-md q-px-sm full-width">
       <q-list highlight inset-separator>
         <q-item multiline v-for="(course, index) in courseList" v-bind:key="index">
           <!-- <q-item-side image="statics/boy-avatar.png"/> -->
