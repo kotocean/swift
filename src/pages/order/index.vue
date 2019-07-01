@@ -20,6 +20,7 @@
                  <span style="color: green; font-size: 21pt;">{{ order.totalPrice }}</span>元
             </q-item-tile>
             <q-item-tile>
+              <q-btn label="加菜" color="secondary" @click="addCourses(index)"></q-btn>
               <q-btn label="结账" color="primary" @click="submitOrder(index)"></q-btn>
             </q-item-tile>
           </q-item-side>
@@ -166,6 +167,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    addCourses(index){
+      // 向已有订单加菜
+      var order = this.incompleteOrderList[index];
+      sessionStorage.setItem('add-courses-to-order', JSON.stringify(order))
+      this.$router.push('/')
     },
     showCompleteOrder() {
       this.axios

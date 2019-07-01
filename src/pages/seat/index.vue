@@ -1,8 +1,18 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 400px">
-      <q-input v-model="seat.name" stack-label="席位名称" placeholder="请输入，如2号桌"/>
-      <q-input v-model="seat.capacity" stack-label="容量" placeholder="最多可坐几人，如3"/>
+      <div class="q-ma-sm">
+        <q-input v-model="seat.name" stack-label="席位名称" placeholder="请输入，如2号桌"/>
+        <q-input v-model="seat.capacity" stack-label="容量" placeholder="最多可坐几人，如3"/>
+        <q-btn-toggle
+          v-model="seat.state"
+          toggle-color="primary"
+          :options="[
+            {label: '可用', value: true},
+            {label: '打扫中', value: false}
+          ]"
+        />
+      </div>
       <q-btn color="secondary" :label="isEdit?'完成编辑':'提交'" @click="postSeat"/>
     </div>
 
@@ -50,12 +60,14 @@ export default {
       seat: {
         name: null,
         capacity: null,
+        state: true,
       },
       seats: [],
       columns: [
         { name: "id", field: "id", style: "display:none;" },
         { name: "name", label: "席位号", field: "name", align: "left" },
-        { name: "capacity", label: "容量", field: "capacity", align: "left" }
+        { name: "capacity", label: "容量", field: "capacity", align: "left" },
+        { name: "state", label: "是否可用", field: "state", align: "left" }
       ],
       selectedSeat: []
     };
@@ -132,7 +144,7 @@ export default {
     request({ pagination }) {
       this.loading = true;
       this.axios
-        .get(`/seat?page=${pagination.page - 1}&size=${pagination.rowsPerPage}&restaurantId=${this.restaurantId}`)
+        .get(`/seat/manage?page=${pagination.page - 1}&size=${pagination.rowsPerPage}&restaurantId=${this.restaurantId}`)
         .then(res => {
           this.serverPagination = pagination;
           this.serverPagination.rowsNumber = res.data.totalElements;

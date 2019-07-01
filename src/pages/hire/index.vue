@@ -4,7 +4,7 @@
       <div>
       <q-input v-model="hire.guid" stack-label="员工GUID" placeholder="员工唯一编号"/>
       <q-input v-model="hire.name" stack-label="员工姓名" placeholder="员工姓名"/>
-      <q-btn-toggle disable
+      <q-btn-toggle
         v-model="hire.state"
         toggle-color="primary"
         :options="[
@@ -37,8 +37,6 @@
         <template slot="top-selection" slot-scope="props">
           <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetHire"/>
           <q-btn color="brown" flat label="取消编辑" @click="cancelEdit"/>
-          <div class="col"/>
-          <q-btn flat label="解雇" @click="deleteHire"/>
           <q-btn
             flat
             round
@@ -72,7 +70,8 @@ export default {
       columns: [
         { name: "id", field: "id", style: "display:none;" },
         { name: "guid", label: "员工编号", field: "guid", align: "left" },
-        { name: "name", label: "姓名", field: "name", align: "left" }
+        { name: "name", label: "姓名", field: "name", align: "left" },
+        { name: "state", label: "是否在职", field: "state", align: "left" }
       ],
       selectedHire: []
     };
@@ -132,21 +131,6 @@ export default {
         state: true
       };
     },
-    deleteHire() {
-      console.log("cancel hire ...");
-      var hire = this.selectedHire[0];
-      this.axios
-        .post("/hire/cancel", {
-          data: hire
-        })
-        .then(response => {
-          console.log(response);
-          this.hires.pop(hire);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
     resetHire() {
       console.log("reset hire ... ");
       this.hire = this.selectedHire[0];
@@ -161,7 +145,7 @@ export default {
       this.loading = true;
       this.axios
         .get(
-          `/restaurant/users?page=${pagination.page - 1}&size=${
+          `/hire/manage?page=${pagination.page - 1}&size=${
             pagination.rowsPerPage
           }&restaurantId=${this.restaurantId}`
         )

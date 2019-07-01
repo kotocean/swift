@@ -71,7 +71,7 @@ export default {
           name: null,
           abbr: null,
           price: null,
-          type: null,
+          type: '其他',
           onSale: true,
       },
       courseTypes: ['其他'],
@@ -165,7 +165,7 @@ export default {
       },
       request({pagination}){
         this.loading = true
-        this.axios.get(`/course?page=${pagination.page-1}&size=${pagination.rowsPerPage}&restaurantId=${this.restaurantId}`)
+        this.axios.get(`/course/manage?page=${pagination.page-1}&size=${pagination.rowsPerPage}&restaurantId=${this.restaurantId}`)
           .then(res => {
             this.serverPagination = pagination
             this.serverPagination.rowsNumber = res.data.totalElements

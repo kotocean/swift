@@ -36,7 +36,7 @@
           </q-item>
         </q-list>
 
-        <q-collapsible icon="shopping_cart" label="工作区" icon-toggle>
+        <q-collapsible opened icon="shopping_cart" label="工作区" icon-toggle>
           <q-list>
             <q-item to="/">
               <q-item-side icon="list"/>
@@ -53,7 +53,7 @@
           </q-list>
         </q-collapsible>
 
-        <q-collapsible icon="perm_identity" label="信息维护区" icon-toggle>
+        <q-collapsible v-if="isShopOwner" icon="perm_identity" label="信息维护区" icon-toggle>
           <q-list>
             <q-item to="/seat">
               <q-item-side icon="filter_1"/>
@@ -74,7 +74,7 @@
             <q-item to="/restaurant">
               <q-item-side icon="filter_5"/>
               <q-item-main label="餐厅" sublabel="餐厅信息维护"/>
-            </q-item>            
+            </q-item>
           </q-list>
         </q-collapsible>
         <div class="flex justify-center q-mt-md">
@@ -116,6 +116,11 @@ export default {
     };
   },
   computed: {
+    isShopOwner() {
+      console.log(this.$auth.user());
+      // 判断当前登录用户角色是否是shopowner
+      return this.$auth.user().roles.indexOf("shopowner") > 0;
+    },
     isSelectedRestaurant() {
       return this.$store.state.restaurant.id > 0;
     },
@@ -169,7 +174,11 @@ export default {
         // 切换全屏模式：
         this.$q.fullscreen.toggle();
       } else {
-        this.$q.notify({color: 'negtive', message: '抱歉，当前浏览器不支持全屏！', icon: 'pets'})
+        this.$q.notify({
+          color: "negtive",
+          message: "抱歉，当前浏览器不支持全屏！",
+          icon: "pets"
+        });
       }
     }
   }

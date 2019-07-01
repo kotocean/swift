@@ -56,7 +56,7 @@ export default {
     console.log('restaurantId: ' + this.restaurantId)
     if (this.$auth.user() !== "undefined") {
       this.axios
-        .get("/course?restaurantId=" + this.restaurantId)
+        .get(`/course?restaurantId=${this.restaurantId}&onSale=true`)
         .then(response => {
           console.log(response);
           this.courseList = response.data.content;

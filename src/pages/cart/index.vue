@@ -46,8 +46,8 @@
         <q-btn color="light-blue">
           <q-icon name="add_shopping_cart"/>
           <q-popover>
-            <div class="group" style="width: 220px; text-align: center;">
-              <q-btn color="primary" v-close-overlay label="提交订单" @click="showModal()">
+            <div class="group" style="text-align: center;">
+              <q-btn color="primary" v-close-overlay :label="isAddCoursesOp?'提交加菜订单':'提交订单'" @click="showModal()">
                 <q-icon name="assignment"/>
               </q-btn>
               <q-btn v-close-overlay color="secondary" label="Tip" @click="showTip()">
@@ -61,8 +61,10 @@
     <q-modal v-model="maximizedModal" maximized>
       <div class="q-mt-xl q-mx-md">
         <p>订单详情，即将下单 ... ...</p>
-        <q-input v-model="order.numberOfDiners" stack-label="就餐人数"/>
-        <q-select v-model="order.seatName" stack-label="桌位" radio :options="seatOptions"/>
+        <div v-if="!isAddCoursesOp">
+          <q-input v-model="order.numberOfDiners" stack-label="就餐人数"/>
+          <q-select v-model="order.seatName" stack-label="桌位" radio :options="seatOptions"/>
+        </div>
         <q-list>
           <q-item v-for="(orderItem, index) in order.orderItemList" v-bind:key="index">
             <q-item-side>{{ index+1 }}.{{orderItem.type }}</q-item-side>
@@ -97,7 +99,9 @@
         <table style="width:100%">
           <tr><td>
           <q-btn color="tertiary" @click="cancelOrder()" label="取消"/></td><td>
-          <q-btn class="full-width" color="primary" @click="submitOrder()" label="下单"/></td></tr>
+          <q-btn v-if="isAddCoursesOp" class="full-width" color="primary" @click="submitAddCoursesOrder()" label="确认加菜"/>
+          <q-btn v-else class="full-width" color="primary" @click="submitOrder()" label="下单"/>
+          </td></tr>
         </table>
       </div>
     </q-modal>
@@ -128,6 +132,9 @@ export default {
   computed: {
     restaurantId() {
       return this.$store.state.restaurant.id;
+    },
+    isAddCoursesOp(){
+      return sessionStorage.getItem('add-courses-to-order') !== null;
     }
   },
   mounted() {
@@ -142,7 +149,7 @@ export default {
         console.log(error);
       });
     this.axios
-      .get("/seat?restaurantId=" + this.restaurantId)
+      .get("/seat?state=true&restaurantId=" + this.restaurantId)
       .then(response => {
         console.log(response);
         var seatList = response.data.content;
@@ -165,12 +172,12 @@ export default {
         cartItem.count = 1;
       } else {
         cartItem.count = temp;
-        this.resetTotalPrice(); // 重新计算订单的总额
+        this.resetTotalPrice(this.order); // 重新计算订单的总额
       }
     },
     addCount(cartItem) {
       cartItem.count = cartItem.count + 1;
-      this.resetTotalPrice();
+      this.resetTotalPrice(this.order);
     },
     submitOrder() {
       this.order.createdDate = new Date().toISOString();
@@ -181,7 +188,15 @@ export default {
         .post("/order", this.order)
         .then(response => {
           console.log(response);
-          for (var index in this.modifiedCartIdx) {
+          this.processCoursesCart()
+          // 处理cart完成
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    processCoursesCart(){
+      for (var index in this.modifiedCartIdx) {
             var target = this.modifiedCartIdx[index];
             // 改变cart的状态
             console.log(index);
@@ -201,11 +216,29 @@ export default {
                 console.log(error);
               });
           }
+    },
+    submitAddCoursesOrder(){
+      var addCoursesToOrder = JSON.parse(sessionStorage.getItem('add-courses-to-order'))
+
+      for(var i in this.order.orderItemList){
+        addCoursesToOrder.orderItemList.push(this.order.orderItemList[i])
+      }
+      addCoursesToOrder.totalPrice += this.order.totalPrice
+      console.log(addCoursesToOrder)
+
+      this.axios
+        .post("/order", addCoursesToOrder)
+        .then(response => {
+          console.log(response);
+          this.processCoursesCart()
           // 处理cart完成
+          // 清理加菜，恢复正常点菜
+          sessionStorage.clear() // 清除整个sessionStorage
         })
         .catch(error => {
           console.log(error);
         });
+
     },
     cancelOrder() {
       this.maximizedModal = false;
@@ -247,11 +280,11 @@ export default {
       }
       console.log(this.order);
     },
-    resetTotalPrice() {
-      this.order.totalPrice = 0;
-      for (var itemIndex in this.order.orderItemList) {
-        var item = this.order.orderItemList[itemIndex];
-        this.order.totalPrice += item.price * item.count;
+    resetTotalPrice(order) {
+      order.totalPrice = 0;
+      for (var itemIndex in order.orderItemList) {
+        var item = order.orderItemList[itemIndex];
+        order.totalPrice += item.price * item.count * item.discount;
       }
     },
     convertDate(date) {
