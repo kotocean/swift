@@ -141,7 +141,7 @@ export default {
       },
       deleteCourse(){
         console.log("delete course ...")
-        var course = this.selectedSeat[0]
+        var course = this.selectedCourse[0]
         this.axios.delete('/course', {
           data: course
         })
