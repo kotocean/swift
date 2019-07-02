@@ -26,7 +26,16 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {
-      }
+      },
+      env: ctx.dev
+        ? {
+          AXIOS_BASE_URL: JSON.stringify('http://localhost:8081'),
+          KEYCLOAK_OAUTH2_BASE_URL: JSON.stringify('http://localhost:8080')
+        }
+        : {
+          AXIOS_BASE_URL: JSON.stringify('http://192.168.0.7:8081'),
+          KEYCLOAK_OAUTH2_BASE_URL: JSON.stringify('http://192.168.0.7:8080')
+        }
     },
     devServer: {
       // https: true,

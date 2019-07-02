@@ -16,6 +16,7 @@ const routes = [
     ]
   },
   { path: '/login', component: () => import('pages/login/index.vue') },
+  { path: '*', component: () => import('pages/Error404.vue') },
 ]
 
 // Always leave this as last one

@@ -9,7 +9,7 @@ import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
 
 //global axios defaults
-axios.defaults.baseURL = 'http://localhost:8081'
+axios.defaults.baseURL = process.env.AXIOS_BASE_URL
 // axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
 Vue.use(VueAxios,axios)
 
@@ -23,9 +23,12 @@ Vue.router = new VueRouter({})
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     keycloakOauth2Data: {
-      url: 'http://localhost:8080/auth/realms/master/protocol/openid-connect/auth',
+      url: process.env.KEYCLOAK_OAUTH2_BASE_URL + '/auth/realms/master/protocol/openid-connect/auth',
       params: {
-        redirect_uri: function () { return this.options.getUrl() + '/login'; },
+        redirect_uri: function () { 
+          localStorage.setItem('websiteUrl', this.options.getUrl())
+          return this.options.getUrl() + '/login'; 
+        },
         client_id: 'sky'
       },
       response_type: 'token'

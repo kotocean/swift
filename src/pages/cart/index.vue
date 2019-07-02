@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row justify-center">
+  <q-page>
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
     <div
       class="q-mt-md q-px-sm full-width"
@@ -140,7 +140,7 @@ export default {
   mounted() {
     console.log("restaurantId: " + this.restaurantId);
     this.axios
-      .get("/cart?restaurantId=" + this.restaurantId)
+      .get("/cart?state=false&restaurantId=" + this.restaurantId)
       .then(response => {
         console.log(response);
         this.cartList = response.data.content;
@@ -203,6 +203,7 @@ export default {
 
             var cart = this.cartList[target.cartIndex];
             cart.cartItemList[target.itemIndex].state = true; //标记为已提交为orderItem
+            if(target.itemIndex+1 === cart.cartItemList.length){ cart.state = true}
             this.axios
               .post("/cart", cart)
               .then(response => {

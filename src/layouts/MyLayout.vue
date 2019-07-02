@@ -156,7 +156,7 @@ export default {
       localStorage.removeItem("default_auth_token");
       // this.$router.replace("/login");
       window.location.href =
-        "http://localhost:8080/auth/realms/master/protocol/openid-connect/logout?redirect_uri=http://localhost:8082/login";
+        process.env.KEYCLOAK_OAUTH2_BASE_URL+'/auth/realms/master/protocol/openid-connect/logout?redirect_uri='+localStorage.getItem('websiteUrl')+'/login';
     },
     showUserinfo() {
       this.$q.notify({
