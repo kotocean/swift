@@ -26,6 +26,7 @@
       <q-btn color="primary" @click="showChecked()" label="查看已选择菜品">
         <q-icon name="assignment"/>
       </q-btn>
+      <q-btn v-if="isAddCoursesOp" color="tertiary" @click="cancelAddCourses()" label="取消加菜"/>
     </q-page-sticky>
   </q-page>
 </template>
@@ -50,6 +51,9 @@ export default {
   computed: {
     restaurantId() {
       return this.$store.state.restaurant.id;
+    },
+    isAddCoursesOp(){
+      return this.$q.sessionStorage.has('add-courses-to-order');
     }
   },
   mounted(){
@@ -104,7 +108,11 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    cancelAddCourses(){
+      // 清理加菜，恢复正常点菜
+      this.$q.sessionStorage.remove('add-courses-to-order')
+    },
   }
 };
 </script>

@@ -50,6 +50,7 @@
               <q-btn color="primary" v-close-overlay :label="isAddCoursesOp?'提交加菜订单':'提交订单'" @click="showModal()">
                 <q-icon name="assignment"/>
               </q-btn>
+              <q-btn v-if="isAddCoursesOp" color="tertiary" @click="cancelAddCourses()" label="取消加菜"/>
               <q-btn v-close-overlay color="secondary" label="Tip" @click="showTip()">
                   <q-icon name="help" />
               </q-btn>
@@ -134,7 +135,7 @@ export default {
       return this.$store.state.restaurant.id;
     },
     isAddCoursesOp(){
-      return sessionStorage.getItem('add-courses-to-order') !== null;
+      return this.$q.sessionStorage.has('add-courses-to-order');
     }
   },
   mounted() {
@@ -219,7 +220,7 @@ export default {
           }
     },
     submitAddCoursesOrder(){
-      var addCoursesToOrder = JSON.parse(sessionStorage.getItem('add-courses-to-order'))
+      var addCoursesToOrder = JSON.parse(this.$q.sessionStorage.get.item('add-courses-to-order'))
 
       for(var i in this.order.orderItemList){
         addCoursesToOrder.orderItemList.push(this.order.orderItemList[i])
@@ -233,8 +234,7 @@ export default {
           console.log(response);
           this.processCoursesCart()
           // 处理cart完成
-          // 清理加菜，恢复正常点菜
-          sessionStorage.clear() // 清除整个sessionStorage
+          this.cancelAddCourses()
         })
         .catch(error => {
           console.log(error);
@@ -244,6 +244,10 @@ export default {
     cancelOrder() {
       this.maximizedModal = false;
       this.resetOrder();
+    },
+    cancelAddCourses(){
+      // 清理加菜，恢复正常点菜
+      this.$q.sessionStorage.remove('add-courses-to-order')
     },
     resetOrder() {
       // 订单状态回到初始值

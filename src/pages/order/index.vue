@@ -171,7 +171,7 @@ export default {
     addCourses(index){
       // 向已有订单加菜
       var order = this.incompleteOrderList[index];
-      sessionStorage.setItem('add-courses-to-order', JSON.stringify(order))
+      this.$q.sessionStorage.set('add-courses-to-order', JSON.stringify(order))
       this.$router.push('/')
     },
     showCompleteOrder() {
