@@ -5,7 +5,7 @@
 
     <!-- Targets -->
     <q-tab-pane name="tab-1">
-      <q-list highlight inset-separator v-for="(order, index) in incompleteOrderList" v-bind:key="index">
+      <q-list highlight link inset-separator v-for="(order, index) in incompleteOrderList" v-bind:key="index">
         <q-item>
           <q-item-side>{{ index+1 }}.</q-item-side>
           <q-item-main
@@ -171,7 +171,7 @@ export default {
     addCourses(index){
       // 向已有订单加菜
       var order = this.incompleteOrderList[index];
-      this.$q.sessionStorage.set('add-courses-to-order', JSON.stringify(order))
+      sessionStorage.setItem('add-courses-to-order', JSON.stringify(order))
       this.$router.push('/')
     },
     showCompleteOrder() {

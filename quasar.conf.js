@@ -6,8 +6,6 @@ module.exports = function (ctx) {
     plugins: [
       'i18n',
       'axios',
-      'LocalStorage',
-      'SessionStorage'
     ],
     css: [
       'app.styl'

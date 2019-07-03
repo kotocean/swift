@@ -6,10 +6,15 @@
       v-for="(cart, index) in cartList"
       v-bind:key="index"
     >
-      <q-list highlight inset-separator v-if="cart.cartItemList.length!=0">
+      <q-list highlight inset-separator link v-if="cart.cartItemList.length!=0">
         <q-list-header>{{ convertDate(cart.lastDate) }}</q-list-header>
-        <q-item multiline v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
+        <q-item multiline tag="label" v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
           <!-- <q-item-side image="statics/boy-avatar.png" /> -->
+          <q-item-side>
+            <q-item-tile>
+              <q-checkbox v-model="cartItem.checked"/>
+            </q-item-tile>
+          </q-item-side>
           <q-item-main>
             <q-item-tile label lines="1">{{ cartItem.course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">
@@ -34,9 +39,6 @@
           </q-item-main>
           <q-item-side right>
             <q-item-tile stamp>{{ cartItem.course.type }}</q-item-tile>
-            <q-item-tile>
-              <q-checkbox v-model="cartItem.checked"/>
-            </q-item-tile>
           </q-item-side>
         </q-item>
       </q-list>
@@ -51,7 +53,7 @@
                 <q-icon name="assignment"/>
               </q-btn>
               <q-btn v-if="isAddCoursesOp" color="tertiary" @click="cancelAddCourses()" label="取消加菜"/>
-              <q-btn v-close-overlay color="secondary" label="Tip" @click="showTip()">
+              <q-btn v-else v-close-overlay color="secondary" label="Tip" @click="showTip()">
                   <q-icon name="help" />
               </q-btn>
             </div>
@@ -135,7 +137,7 @@ export default {
       return this.$store.state.restaurant.id;
     },
     isAddCoursesOp(){
-      return this.$q.sessionStorage.has('add-courses-to-order');
+      return sessionStorage.getItem('add-courses-to-order')!==null;
     }
   },
   mounted() {
@@ -220,7 +222,7 @@ export default {
           }
     },
     submitAddCoursesOrder(){
-      var addCoursesToOrder = JSON.parse(this.$q.sessionStorage.get.item('add-courses-to-order'))
+      var addCoursesToOrder = JSON.parse(sessionStorage.getItem('add-courses-to-order'))
 
       for(var i in this.order.orderItemList){
         addCoursesToOrder.orderItemList.push(this.order.orderItemList[i])
@@ -247,7 +249,8 @@ export default {
     },
     cancelAddCourses(){
       // 清理加菜，恢复正常点菜
-      this.$q.sessionStorage.remove('add-courses-to-order')
+      sessionStorage.clear('add-courses-to-order')
+      this.$q.notify('已取消加菜，恢复正常点菜')
     },
     resetOrder() {
       // 订单状态回到初始值

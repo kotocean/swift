@@ -3,9 +3,12 @@
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
      <!-- style="width: 500px; max-width: 120vw;" -->
     <div class="q-mt-md q-px-sm full-width">
-      <q-list highlight inset-separator>
-        <q-item multiline v-for="(course, index) in courseList" v-bind:key="index">
+      <q-list highlight inset-separator link>
+        <q-item multiline tag="label" v-for="(course, index) in courseList" v-bind:key="index">
           <!-- <q-item-side image="statics/boy-avatar.png"/> -->
+          <q-item-side>
+            <q-checkbox v-model="checkedCourseList[index]"/>
+          </q-item-side>
           <q-item-main>
             <q-item-tile label lines="2" style="font-size:14pt;">{{ course.name }}</q-item-tile>
             <q-item-tile sublabel lines="2">
@@ -14,9 +17,6 @@
           </q-item-main>
           <q-item-side right>
             <q-item-tile stamp>{{ course.type }}</q-item-tile>
-            <q-item-tile>
-              <q-checkbox v-model="checkedCourseList[index]"/>
-            </q-item-tile>
           </q-item-side>
         </q-item>
       </q-list>
@@ -45,7 +45,7 @@ export default {
         cartItemList: [],
         totalPrice: 0,
         state: false
-      }
+      },
     };
   },
   computed: {
@@ -53,7 +53,7 @@ export default {
       return this.$store.state.restaurant.id;
     },
     isAddCoursesOp(){
-      return this.$q.sessionStorage.has('add-courses-to-order');
+      return sessionStorage.getItem('add-courses-to-order')!==null;
     }
   },
   mounted(){
@@ -111,7 +111,8 @@ export default {
     },
     cancelAddCourses(){
       // 清理加菜，恢复正常点菜
-      this.$q.sessionStorage.remove('add-courses-to-order')
+      sessionStorage.clear('add-courses-to-order')
+      this.$q.notify('已取消加菜，恢复正常点菜')
     },
   }
 };
