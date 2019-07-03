@@ -70,20 +70,20 @@
         </div>
         <q-list>
           <q-item v-for="(orderItem, index) in order.orderItemList" v-bind:key="index">
-            <q-item-side>{{ index+1 }}.{{orderItem.type }}</q-item-side>
+            <q-item-side>{{ index+1 }}.</q-item-side>
             <q-item-main :label="orderItem.name"/>
             <q-item-side right>
               <table>
                 <tr>
                   <td>{{ orderItem.price }}元</td>
                   <td>
-                    <q-btn-group>
+                    <q-btn-group flat>
                       <q-btn label="-" @click="subCount(orderItem)"/>
                       <q-input
                         v-model="orderItem.count"
                         size="mini"
                         type="number"
-                        style="width:16px; text-align:center;"
+                        style="width:8px; text-align:center;"
                       />
                       <q-btn label="+" @click="addCount(orderItem)"/>
                     </q-btn-group>

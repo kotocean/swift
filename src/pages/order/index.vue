@@ -32,13 +32,13 @@
                   <td>{{orderItem.name}}</td>
                   <td>
                     <!-- <q-input style="width:20px;" v-model="orderItem.count" /> -->
-                    <q-btn-group>
+                    <q-btn-group flat>
                       <q-btn label="-" @click="subCount(orderItem, order)"/>
                       <q-input
                         v-model="orderItem.discount"
                         size="mini"
                         type="number"
-                        style="width:45px; text-align:center;"
+                        style="width:35px; text-align:center;"
                         @input="resetTotalPrice(order)"
                       />
                       <q-btn label="+" @click="addCount(orderItem, order)"/>
@@ -162,7 +162,7 @@ export default {
         .post("/order", order)
         .then(res => {
           console.log(res);
-          this.incompleteOrderList.pop(index);
+          this.incompleteOrderList.splice(index, 1); // 删除某个指定下标的数组元素
         })
         .catch(err => {
           console.log(err);
