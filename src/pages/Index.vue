@@ -129,7 +129,7 @@ export default {
     cancelAddCourses() {
       // 清理加菜，恢复正常点菜
       sessionStorage.clear("add-courses-to-order");
-      this.$q.notify("已取消加菜，恢复正常点菜");
+      this.$router.replace('/order')
     }
   }
 };

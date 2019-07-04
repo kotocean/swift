@@ -28,8 +28,10 @@
       color="secondary"
       title="请先选择要删除和编辑的数据行"
       rows-per-page-label="每页显示行数："
+      no-data-label="数据为空，请添加数据项"
+      loading-label="加载中"
     >
-      <template slot="top-selection" slot-scope="props">
+    <template slot="top-selection" slot-scope="props">
         <q-btn color="secondary" flat label="重新编辑" class="q-mr-sm" @click="resetSeat"/>
         <q-btn color="brown" flat label="取消编辑" @click="cancelEdit"/>
         <div class="col"/>
@@ -55,7 +57,7 @@ export default {
       serverPagination: {
         page: 1,
         rowsNumber: 10, // specifying this determines pagination is server-side
-        rowsPerPage: 3
+        rowsPerPage: 10
       },
       seat: {
         name: null,
@@ -139,7 +141,7 @@ export default {
     },
     cancelEdit() {
       this.isEdit = false;
-      this.seat = { onSale: true };
+      this.seat = { state: true };
     },
     request({ pagination }) {
       this.loading = true;
