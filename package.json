@@ -1,8 +1,8 @@
 {
   "name": "swift",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "极简且易用的点餐APP",
+  "productName": "点餐云",
   "cordovaId": "org.cordova.quasar.app",
   "author": "积少成多 <1491413492@qq.com>",
   "private": true,

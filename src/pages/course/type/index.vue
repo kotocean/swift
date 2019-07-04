@@ -44,7 +44,7 @@ export default {
       serverPagination: {
         page: 1,
         rowsNumber: 10, // specifying this determines pagination is server-side
-        rowsPerPage: 3
+        rowsPerPage: 10
       },
       courseType:{
           name: null,

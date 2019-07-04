@@ -3,7 +3,7 @@
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg"> -->
     <!-- style="width: 500px; max-width: 120vw;" -->
     <div class="q-mt-md q-px-sm full-width">
-      <q-list link separator>
+      <q-list link separator no-border>
         <q-collapsible
           v-for="(typeCourses, type, index) in typeCourseList[0]"
           v-bind:key="index"

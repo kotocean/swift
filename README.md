@@ -10,7 +10,7 @@
 + [spring-data-jpa](https://spring.io/projects/spring-data-jpa)
 + [Example setting env for dev/build](https://quasar.dev/quasar-cli/quasar-conf-js#Example-setting-env-for-dev%2Fbuild)
 
-1. 开发启动命令 `quasar dev`
+1. 开发启动命令 `quasar dev`;可以运行或编译时指定主题 ios/mat
 2. 可以在启动时使用`quasar dev/build`的环境变量，如 `MY_API=api.com quasar build`,具体的配置示例为，
 
 ```

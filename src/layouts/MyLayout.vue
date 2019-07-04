@@ -2,7 +2,7 @@
   <div>
     <q-layout view="lHh Lpr lFf">
       <q-layout-header>
-        <q-toolbar color="primary">
+        <q-toolbar color="blue-5">
           <q-btn
             v-if="isSelectedRestaurant"
             flat

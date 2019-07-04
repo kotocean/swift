@@ -28,7 +28,7 @@
         <q-collapsible group="somegroup" icon="assignment" label="订单详情" sublabel="可以给予打折或赠送">
             <table width="100%">
                 <tr v-for="(orderItem, itemIndex) in order.orderItemList" v-bind:key="itemIndex">
-                  <td>{{itemIndex+1}}</td>
+                  <td>{{itemIndex+1}}.</td>
                   <td>{{orderItem.name}}</td>
                   <td>
                     <!-- <q-input style="width:20px;" v-model="orderItem.count" /> -->

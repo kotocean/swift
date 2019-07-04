@@ -6,7 +6,7 @@
       v-for="(cart, index) in cartList"
       v-bind:key="index"
     >
-      <q-list highlight inset-separator link v-if="cart.cartItemList.length!=0">
+      <q-list highlight inset-separator link no-border v-if="cart.cartItemList.length!=0">
         <q-list-header>{{ convertDate(cart.lastDate) }}</q-list-header>
         <q-item multiline tag="label" v-for="(cartItem, itemIndex) in cart.cartItemList" v-bind:key="itemIndex">
           <!-- <q-item-side image="statics/boy-avatar.png" /> -->
@@ -48,12 +48,12 @@
         <q-btn color="light-blue">
           <q-icon name="add_shopping_cart"/>
           <q-popover>
-            <div class="group" style="text-align: center;">
+            <div class="group">
               <q-btn color="primary" v-close-overlay :label="isAddCoursesOp?'提交加菜订单':'提交订单'" @click="showModal()">
                 <q-icon name="assignment"/>
               </q-btn>
               <q-btn v-if="isAddCoursesOp" color="tertiary" @click="cancelAddCourses()" label="取消加菜"/>
-              <q-btn v-else v-close-overlay color="secondary" label="Tip" @click="showTip()">
+              <q-btn v-else v-close-overlay color="secondary" @click="showTip()">
                   <q-icon name="help" />
               </q-btn>
             </div>
